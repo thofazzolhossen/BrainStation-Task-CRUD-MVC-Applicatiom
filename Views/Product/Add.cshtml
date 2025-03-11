@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model CRUD_Task.Models.AddProductViewModel
+
+<div class="d-flex justify-content-between align-items-center my-4">
+    <h1 class="text-center mb-0">Add Product</h1>
+    <a href="@Url.Action("List", "Product")" class="btn btn-secondary">Back to Product List</a>
+</div>
+
+<form method="post" class="container p-4 border rounded shadow bg-light">
+    <div class="mb-3">
+        <label for="productName" class="form-label">Product Name</label>
+        <input asp-for="Name" type="text" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input asp-for="Price" type="number" step="0.01" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="stock" class="form-label">Stock Quantity</label>
+        <input asp-for="Quantity" type="number" class="form-control" id="stock" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Add Product</button>
+</form>
+
+
+
+

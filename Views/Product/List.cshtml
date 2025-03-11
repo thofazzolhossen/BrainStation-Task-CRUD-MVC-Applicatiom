@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CRUD_Task.Models.Entities.Product>
+@{
+    int x = 0;
+}
+
+<div class="d-flex justify-content-between align-items-center my-4">
+    <h1 class="text-primary mb-0 mx-auto">Product List</h1>
+    <a asp-action="Add" class="btn btn-primary">Add New Product</a>
+</div>
+
+<table class="table table-hover table-bordered shadow-lg">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            x = i+1;
+            var product = Model.ElementAt(i);
+            <tr class="align-middle">
+                <td class="text-secondary text-center">@x</td> <!-- Display serial number -->
+                <td class="fw-bold text-info text-center">@product.Name</td>
+                <td class="text-success text-center">$@product.Price</td>
+                <td class="text-success text-center">@product.Quantity</td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-warning">Edit</a>
+
+                    <!-- Delete Button - Opens Modal -->
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@product.Id">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this product?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-action="Delete" id="deleteForm">
+                    <input type="hidden" name="id" id="productIdToDelete" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+
+        var button = event.relatedTarget; // Button that triggered the modal
+        var productId = button.getAttribute('data-id'); // Extract info from data-* attributes
+        var modal = deleteModal.querySelector('.modal-footer #productIdToDelete');
+        modal.value = productId; // Set product ID in hidden input field
+
+    });
+</script>
